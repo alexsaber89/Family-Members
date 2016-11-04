@@ -1,3 +1,3 @@
 "use strict";
 
-//test
+var $ = require("../lib/node_modules/jquery");
