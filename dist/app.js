@@ -25,7 +25,7 @@ module.exports = getFamilyMembers;
 },{}],2:[function(require,module,exports){
 "use strict";
 
-function setFirebaseCredentials() {
+function getFirebaseCredentials() {
   return new Promise((resolve,reject)=>{
     $.ajax({
       method: 'GET',
@@ -38,7 +38,7 @@ function setFirebaseCredentials() {
   });
 }
 
-module.exports = setFirebaseCredentials;
+module.exports = getFirebaseCredentials;
 
 },{}],3:[function(require,module,exports){
 "use strict";
@@ -53,10 +53,10 @@ $(document).ready(function() {
   getFirebaseCredentials().then(function(keys) {
     apiKeys = keys;
     firebase.initializeApp(apiKeys);
-    getFamilyMembers(apiKeys);    
+    getFamilyMembers(apiKeys);
   });
 
-
+  
 
 });
 
