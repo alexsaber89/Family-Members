@@ -2,6 +2,7 @@
 
 let getFirebaseCredentials = require("./getFirebaseCredentials");
 let getFamilyMembers = require("./getFamilyMembers");
+let displayFamilyMembers = require("./displayFamilyMembers");
 
 $(document).ready(function() {
 
@@ -10,9 +11,10 @@ $(document).ready(function() {
   getFirebaseCredentials().then(function(keys) {
     apiKeys = keys;
     firebase.initializeApp(apiKeys);
-    getFamilyMembers(apiKeys);
+  }).then(function() {
+    return getFamilyMembers(apiKeys);
+  }).then(function(familyMembers) {
+    displayFamilyMembers(familyMembers);
   });
-
-  
 
 });

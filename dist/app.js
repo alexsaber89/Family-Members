@@ -1,6 +1,23 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
+function displayFamilyMembers(familyMembers) {
+  $("#family-members-container").html("");
+  familyMembers.forEach(function(member) {
+    let familyMember =`<div class="col-xs-12 family-member-container">`;
+    familyMember+=`<button class="btn btn-default col-xs-1 edit">Edit</button>`;
+    familyMember+=`<button class="btn btn-danger col-xs-1 delete">Delete</button>`;
+    familyMember+=`<p class="col-xs-10">${member.name} (${member.age}, ${member.gender})</p>`;
+    familyMember+='</div>';
+    $("#family-members-container").append(familyMember);
+  });
+}
+
+module.exports = displayFamilyMembers;
+
+},{}],2:[function(require,module,exports){
+"use strict";
+
 function getFamilyMembers(apiKeys) {
   return new Promise((resolve,reject)=>{
     $.ajax({
@@ -22,7 +39,7 @@ function getFamilyMembers(apiKeys) {
 
 module.exports = getFamilyMembers;
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
 function getFirebaseCredentials() {
@@ -40,11 +57,12 @@ function getFirebaseCredentials() {
 
 module.exports = getFirebaseCredentials;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 
 let getFirebaseCredentials = require("./getFirebaseCredentials");
 let getFamilyMembers = require("./getFamilyMembers");
+let displayFamilyMembers = require("./displayFamilyMembers");
 
 $(document).ready(function() {
 
@@ -53,11 +71,12 @@ $(document).ready(function() {
   getFirebaseCredentials().then(function(keys) {
     apiKeys = keys;
     firebase.initializeApp(apiKeys);
-    getFamilyMembers(apiKeys);
+  }).then(function() {
+    return getFamilyMembers(apiKeys);
+  }).then(function(familyMembers) {
+    displayFamilyMembers(familyMembers);
   });
-
-  
 
 });
 
-},{"./getFamilyMembers":1,"./getFirebaseCredentials":2}]},{},[3]);
+},{"./displayFamilyMembers":1,"./getFamilyMembers":2,"./getFirebaseCredentials":3}]},{},[4]);

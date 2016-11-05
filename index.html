@@ -8,21 +8,29 @@
   </head>
   <body>
 
-    <div class="jumbotron">
-      <h1 class="display-3">Family Members</h1>
-    </div>
+    <div class="user-interaction">
 
-    <div class="panel panel-default user col-xs-offset-3">
-      <div class="panel-body">
-        <input class="form-control user-input" type="text" id="nameInput" placeholder='Name'>
-        <input class="form-control user-input" type="text" id="ageInput" placeholder='Age'>
-        <input class="form-control user-input" type="text" id="genderInput" placeholder='Gender'>
-        <input class="form-control user-input" type="text" id="skillsInput" placeholder='Skills (comma separated)'>
-        <button type="button" class="btn btn-primary btn-md" id="add-btn">Add Family Member</button>
+      <div class="jumbotron">
+        <h1 class="display-3">Family Members</h1>
       </div>
+
+      <div class="panel panel-default user col-xs-offset-3">
+        <div class="panel-body">
+          <input class="form-control user-input" type="text" id="name-input" placeholder='Name'>
+          <input class="form-control user-input" type="text" id="age-input" placeholder='Age'>
+          <input class="form-control user-input" type="text" id="gender-input" placeholder='Gender'>
+          <input class="form-control user-input" type="text" id="skills-input" placeholder='Skills (comma separated)'>
+          <button type="button" class="btn btn-primary btn-md" id="add-btn">Add Family Member</button>
+        </div>
+      </div>
+
     </div>
 
-    <div id="container">
+    <div class="data-display">
+
+      <div id="family-members-container">
+      </div>
+
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/3.5.3/firebase.js"></script>

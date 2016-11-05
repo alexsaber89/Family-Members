@@ -1,5 +1,6 @@
 .jumbotron {
   padding: 0.5em 0.6em;
+  margin-bottom: 10px;
   h1 {
       font-size: 2em;
       text-align: center;
@@ -15,4 +16,12 @@
 
 #add-btn {
   margin-top: 1%;
+}
+
+#family-members-container {
+  display: inline-block;
+  width: 75%;
+  .family-member-container {
+    margin-bottom: 5px;
+  }
 }
