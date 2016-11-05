@@ -1,3 +1,4 @@
 lib/node_modules
 apiKeys.json
+familyMemberSeed.json
 **.sass-cache**
