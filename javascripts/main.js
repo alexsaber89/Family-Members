@@ -4,6 +4,7 @@ let getFirebaseCredentials = require("./getFirebaseCredentials");
 let getFamilyMembers = require("./getFamilyMembers");
 let displayFamilyMembers = require("./displayFamilyMembers");
 let addFamilyMember = require("./addFamilyMembers");
+let deleteFamilyMember = require("./deleteFamilyMembers");
 
 $(document).ready(function() {
 
@@ -11,6 +12,7 @@ $(document).ready(function() {
 
   getFirebaseCredentials().then(function(keys) {
     apiKeys = keys;
+  }).then(function() {
     firebase.initializeApp(apiKeys);
   }).then(function() {
     return getFamilyMembers(apiKeys);
@@ -33,11 +35,13 @@ $(document).ready(function() {
     });
   });
 
-  // $("#family-members-container").on("click",".delete",function() {
-  //   let itemID = $(this).data("fbid");
-  //   FbAPI.deleteTodo(apiKeys,itemID).then(function() {
-  //     displayFamilyMembers(familyMembers);
-  //   });
-  // });
-
+  $("#family-members-container").on("click",".delete",function(event) {
+    let itemID = $(this).parent().data("fbid");
+    console.log("itemID: ",itemID);
+    deleteFamilyMember(apiKeys,itemID).then(function() {
+      return getFamilyMembers(apiKeys);
+    }).then(function(familyMembers) {
+      displayFamilyMembers(familyMembers);
+    });
+  });
 });

@@ -6,13 +6,14 @@ function getFamilyMembers(apiKeys) {
       method: 'GET',
       url: `${apiKeys.databaseURL}/family.json`
     }).then((response)=>{
+      console.log("getFamilyMembers response: ",response);
       let items = [];
       Object.keys(response).forEach(function(key){
         response[key].id = key;
         items.push(response[key]);
       });
       resolve(items);
-      console.log("family members: ", items);
+      console.log("family member items: ", items);
     },(error)=>{
       reject(error);
     });
