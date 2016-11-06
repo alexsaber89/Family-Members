@@ -1,6 +1,6 @@
 "use strict";
 
-function setFirebaseCredentials() {
+function getFirebaseCredentials() {
   return new Promise((resolve,reject)=>{
     $.ajax({
       method: 'GET',
@@ -13,4 +13,4 @@ function setFirebaseCredentials() {
   });
 }
 
-module.exports = setFirebaseCredentials;
+module.exports = getFirebaseCredentials;
