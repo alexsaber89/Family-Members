@@ -9,8 +9,10 @@ function getFamilyMembers(apiKeys) {
       console.log("getFamilyMembers response: ",response);
       let items = [];
       Object.keys(response).forEach(function(key){
-        response[key].id = key;
-        items.push(response[key]);
+        if (response[key] !== null) {
+          response[key].id = key;
+          items.push(response[key]);
+        }
       });
       resolve(items);
       console.log("family member items: ", items);
