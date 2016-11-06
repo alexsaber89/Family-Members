@@ -22,6 +22,24 @@ module.exports = addFamilyMember;
 },{}],2:[function(require,module,exports){
 "use strict";
 
+function deleteFamilyMember(apiKeys,itemID) {
+  return new Promise((resolve,reject)=>{
+  $.ajax({
+    method: 'DELETE',
+    url:`${apiKeys.databaseURL}/family/${itemID}.json`,
+  }).then((response)=>{
+    resolve(response);
+  },(error)=>{
+    reject(error);
+  });
+});
+}
+
+module.exports = deleteFamilyMember;
+
+},{}],3:[function(require,module,exports){
+"use strict";
+
 function displayFamilyMembers(familyMembers) {
   $("#family-members-container").html("");
   familyMembers.forEach(function(member) {
@@ -33,7 +51,7 @@ function displayFamilyMembers(familyMembers) {
         skills += `and ${skill}.`;
       }
     });
-    let familyMember =`<div class="col-xs-12 family-member-container" fbid="${member.id}">`;
+    let familyMember =`<div class="col-xs-12 family-member-container" data-fbid="${member.id}">`;
     familyMember +=`<button class="btn btn-danger col-xs-1 delete">Delete</button>`;
     familyMember += `<p class="col-xs-11">${member.name} (${member.age}, ${member.gender}).  ${skills}</p>`;
     familyMember += '</div>';
@@ -43,7 +61,7 @@ function displayFamilyMembers(familyMembers) {
 
 module.exports = displayFamilyMembers;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 
 function getFamilyMembers(apiKeys) {
@@ -52,13 +70,14 @@ function getFamilyMembers(apiKeys) {
       method: 'GET',
       url: `${apiKeys.databaseURL}/family.json`
     }).then((response)=>{
+      console.log("getFamilyMembers response: ",response);
       let items = [];
       Object.keys(response).forEach(function(key){
         response[key].id = key;
         items.push(response[key]);
       });
       resolve(items);
-      console.log("family members: ", items);
+      console.log("family member items: ", items);
     },(error)=>{
       reject(error);
     });
@@ -67,7 +86,7 @@ function getFamilyMembers(apiKeys) {
 
 module.exports = getFamilyMembers;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 
 function getFirebaseCredentials() {
@@ -85,13 +104,14 @@ function getFirebaseCredentials() {
 
 module.exports = getFirebaseCredentials;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 let getFirebaseCredentials = require("./getFirebaseCredentials");
 let getFamilyMembers = require("./getFamilyMembers");
 let displayFamilyMembers = require("./displayFamilyMembers");
 let addFamilyMember = require("./addFamilyMembers");
+let deleteFamilyMember = require("./deleteFamilyMembers");
 
 $(document).ready(function() {
 
@@ -99,6 +119,7 @@ $(document).ready(function() {
 
   getFirebaseCredentials().then(function(keys) {
     apiKeys = keys;
+  }).then(function() {
     firebase.initializeApp(apiKeys);
   }).then(function() {
     return getFamilyMembers(apiKeys);
@@ -121,13 +142,15 @@ $(document).ready(function() {
     });
   });
 
-  // $("#family-members-container").on("click",".delete",function() {
-  //   let itemID = $(this).data("fbid");
-  //   FbAPI.deleteTodo(apiKeys,itemID).then(function() {
-  //     displayFamilyMembers(familyMembers);
-  //   });
-  // });
-
+  $("#family-members-container").on("click",".delete",function(event) {
+    let itemID = $(this).parent().data("fbid");
+    console.log("itemID: ",itemID);
+    deleteFamilyMember(apiKeys,itemID).then(function() {
+      return getFamilyMembers(apiKeys);
+    }).then(function(familyMembers) {
+      displayFamilyMembers(familyMembers);
+    });
+  });
 });
 
-},{"./addFamilyMembers":1,"./displayFamilyMembers":2,"./getFamilyMembers":3,"./getFirebaseCredentials":4}]},{},[5]);
+},{"./addFamilyMembers":1,"./deleteFamilyMembers":2,"./displayFamilyMembers":3,"./getFamilyMembers":4,"./getFirebaseCredentials":5}]},{},[6]);
