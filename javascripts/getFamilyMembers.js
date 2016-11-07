@@ -6,16 +6,20 @@ function getFamilyMembers(apiKeys) {
       method: 'GET',
       url: `${apiKeys.databaseURL}/family.json`
     }).then((response)=>{
-      console.log("getFamilyMembers response: ",response);
       let items = [];
-      Object.keys(response).forEach(function(key){
-        if (response[key] !== null) {
-          response[key].id = key;
-          items.push(response[key]);
+      if (response) {
+        Object.keys(response).forEach(function(key){
+          if (response[key]) {
+            response[key].id = key;
+            items.push(response[key]);
+          } else {
+            console.log("null object");
+          }
+        });
+        } else {
+          console.log("null data returned");
         }
-      });
       resolve(items);
-      console.log("family member items: ", items);
     },(error)=>{
       reject(error);
     });

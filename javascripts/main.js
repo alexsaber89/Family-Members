@@ -28,6 +28,10 @@ $(document).ready(function() {
     let skillsString = $("#skills-input").val();
     let skillsArray = skillsString.split(',');
     newFamilyMember.skills = skillsArray;
+    $("#name-input").val("");
+    $("#age-input").val("");
+    $("#gender-input").val("");
+    $("#skills-input").val("");
     addFamilyMember(apiKeys,newFamilyMember).then(function() {
       return getFamilyMembers(apiKeys);
     }).then(function(familyMembers) {
@@ -37,7 +41,6 @@ $(document).ready(function() {
 
   $("#family-members-container").on("click",".delete",function(event) {
     let itemID = $(this).parent().data("fbid");
-    console.log("itemID: ",itemID);
     deleteFamilyMember(apiKeys,itemID).then(function() {
       return getFamilyMembers(apiKeys);
     }).then(function(familyMembers) {
